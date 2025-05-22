@@ -38,6 +38,7 @@ jobs:
             -Dsonar.projectKey=Santiago-Cordoba_Bomberman-BackArsw
             -Dsonar.organization=santiago-cordoba
             -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.java.binaries=arsw/target/classes
 
       - name: Build with Maven
         working-directory: arsw

@@ -1,4 +1,4 @@
-name: Build, analyze with SonarCloud and deploy JAR app to Azure Web App - BackBomberman
+name: Build, SonarCloud scan and deploy JAR app to Azure Web App - BackBomberman
 
 on:
   push:
@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write  # para SonarCloud (si usas token OIDC)
-    
+      id-token: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -30,11 +30,14 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          projectKey: santiago-cordoba_bomberman_arsw
-          organization: santiago-cordoba
-          token: ${{ secrets.SONAR_TOKEN }}  # Debes agregar este secreto en GitHub
+          args: >
+            -Dsonar.projectKey=santiago-cordoba_bomberman_arsw
+            -Dsonar.organization=santiago-cordoba
+            -Dsonar.host.url=https://sonarcloud.io
 
       - name: Build with Maven
         working-directory: arsw
@@ -55,7 +58,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-  
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4

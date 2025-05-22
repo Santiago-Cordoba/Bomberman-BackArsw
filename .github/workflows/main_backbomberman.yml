@@ -35,7 +35,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=santiago-cordoba_bomberman_arsw
+            -Dsonar.projectKey=Santiago-Cordoba_Bomberman-BackArsw
             -Dsonar.organization=santiago-cordoba
             -Dsonar.host.url=https://sonarcloud.io
 
